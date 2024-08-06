@@ -1,28 +1,28 @@
 // To parse this JSON data, do
 //
-//     final pickListPreview = pickListPreviewFromJson(jsonString);
+//     final pickPreview = pickPreviewFromJson(jsonString);
 
 import 'dart:convert';
 
-PickListPreview pickListPreviewFromJson(String str) => PickListPreview.fromJson(json.decode(str));
+PickPreview pickPreviewFromJson(String str) => PickPreview.fromJson(json.decode(str));
 
-String pickListPreviewToJson(PickListPreview data) => json.encode(data.toJson());
+String pickPreviewToJson(PickPreview data) => json.encode(data.toJson());
 
-class PickListPreview {
-  PickListPreview({
+class PickPreview {
+  bool isSuccess;
+  String messages;
+  List<PickPreviewElement> pickPreview;
+
+  PickPreview({
     required this.isSuccess,
     required this.messages,
     required this.pickPreview,
   });
 
-  bool isSuccess;
-  String messages;
-  List<PickPreview> pickPreview;
-
-  factory PickListPreview.fromJson(Map<String, dynamic> json) => PickListPreview(
+  factory PickPreview.fromJson(Map<String, dynamic> json) => PickPreview(
     isSuccess: json["is_success"],
     messages: json["messages"],
-    pickPreview: List<PickPreview>.from(json["PickPreview"].map((x) => PickPreview.fromJson(x))),
+    pickPreview: List<PickPreviewElement>.from(json["PickPreview"].map((x) => PickPreviewElement.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -32,107 +32,56 @@ class PickListPreview {
   };
 }
 
-class PickPreview {
-  PickPreview({
-    required this.slno,
-    required this.pickId,
+class PickPreviewElement {
+  String partno;
+  String pickQty;
+  String pickedQty;
+  String rate;
+  String pickedTotalAmt;
+  String pickedRate;
+  String pickStatus;
+  String rackno;
+  String binQrcode;
+  String stockqty;
+
+  PickPreviewElement({
     required this.partno,
-    required this.partname,
-    required this.quantity,
-    required this.rate,
-    required this.stockqty,
-    required this.rackno,
-    required this.repcode,
-    required this.pickCategory,
-    required this.picklisttime,
-    required this.telecaller,
-    required this.pickStatus,
+    required this.pickQty,
     required this.pickedQty,
+    required this.rate,
+    required this.pickedTotalAmt,
     required this.pickedRate,
-    required this.shortageQty,
+    required this.pickStatus,
+    required this.rackno,
     required this.binQrcode,
-    required this.rTimestamp,
-    required this.remarks,
-    required this.recordStatus,
-    required this.pickedDate,
-    required this.pickedTime,
+    required this.stockqty,
   });
 
-  String slno;
-  String pickId;
-  String partno;
-  String partname;
-  String quantity;
-  String rate;
-  String stockqty;
-  String rackno;
-  String repcode;
-  String pickCategory;
-  String picklisttime;
-  String telecaller;
-  String pickStatus;
-  String pickedQty;
-  String pickedRate;
-  String shortageQty;
-  String binQrcode;
-  DateTime rTimestamp;
-  String remarks;
-  String recordStatus;
-  DateTime pickedDate;
-  String pickedTime;
+  factory PickPreviewElement.fromJson(Map<String, dynamic> json) => PickPreviewElement(
+    partno: json["partno"],
+    pickQty: json["pick_qty"],
+    pickedQty: json["picked_qty"],
+    rate: json["rate"],
+    pickedTotalAmt: json["picked_total_amt"],
+    pickedRate: json["picked_rate"],
+    pickStatus: json["pick_status"],
+    rackno: json["rackno"],
+    binQrcode: json["bin_qrcode"],
+    stockqty: json["stockqty"],
+  );
 
-  factory PickPreview.fromJson(Map<String, dynamic> json) =>
-      PickPreview(
-        slno: json["Slno"],
-        pickId: json["pick_id"],
-        partno: json["partno"],
-        partname: json["partname"],
-        quantity: json["quantity"],
-        rate: json["rate"],
-        stockqty: json["stockqty"],
-        rackno: json["rackno"],
-        repcode: json["repcode"],
-        pickCategory: json["pick_category"],
-        picklisttime: json["picklisttime"],
-        telecaller: json["telecaller"],
-        pickStatus: json["pick_status"],
-        pickedQty: json["picked_qty"],
-        pickedRate: json["picked_rate"],
-        shortageQty: json["shortage_qty"],
-        binQrcode: json["bin_qrcode"],
-        rTimestamp: DateTime.parse(json["r_timestamp"]),
-        remarks: json["remarks"],
-        recordStatus: json["record_status"],
-        pickedDate: DateTime.parse(json["picked_date"]),
-        pickedTime: json["picked_time"],
-      );
-
-  Map<String, dynamic> toJson() =>
-      {
-        "Slno": slno,
-        "pick_id": pickId,
-        "partno": partno,
-        "partname": partname,
-        "quantity": quantity,
-        "rate": rate,
-        "stockqty": stockqty,
-        "rackno": rackno,
-        "repcode": repcode,
-        "pick_category": pickCategory,
-        "picklisttime": picklisttime,
-        "telecaller": telecaller,
-        "pick_status": pickStatus,
-        "picked_qty": pickedQty,
-        "picked_rate": pickedRate,
-        "shortage_qty": shortageQty,
-        "bin_qrcode": binQrcode,
-        "r_timestamp": rTimestamp.toIso8601String(),
-        "remarks": remarks,
-        "record_status": recordStatus,
-        "picked_date": "${pickedDate.year.toString().padLeft(
-            4, '0')}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate
-            .day.toString().padLeft(2, '0')}",
-        "picked_time": pickedTime,
-      };
-
+  Map<String, dynamic> toJson() => {
+    "partno": partno,
+    "pick_qty": pickQty,
+    "picked_qty": pickedQty,
+    "rate": rate,
+    "picked_total_amt": pickedTotalAmt,
+    "picked_rate": pickedRate,
+    "pick_status": pickStatus,
+    "rackno": rackno,
+    "bin_qrcode": binQrcode,
+    "stockqty": stockqty,
+  };
 }
+
+
